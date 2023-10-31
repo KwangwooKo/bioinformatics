@@ -280,9 +280,9 @@ conda config --set channel_priority flexible
 
 -   Now retry installing your conda environment.
 
+## References
 
-
-This document accompanies the [**DIYtranscriptomics course**](https://diytranscriptomics.com/) and is intended to provide basic guidance in the installation of various bioinformatics softwares using Conda. If you have problems...don't worry, **[we're here to help](https://diytranscriptomics.com/lab/lab-01)****.**
+This document accompanies the [**DIYtranscriptomics course**](https://diytranscriptomics.com/) and is intended to provide basic guidance in the installation of various bioinformatics softwares using Conda.
 
 -   [
     
