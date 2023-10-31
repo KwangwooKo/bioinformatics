@@ -1,80 +1,3 @@
-This document accompanies the [**DIYtranscriptomics course**](https://diytranscriptomics.com/) and is intended to provide basic guidance in the installation of various bioinformatics softwares using Conda. If you have problems...don't worry, **[we're here to help](https://diytranscriptomics.com/lab/lab-01)****.**
-
--   [
-    
-    What is Conda and why should you install it?
-    
-    ](https://protocols.hostmicrobe.org/conda#7ce114102d694df2be3c65d6b9249b2b)
--   [
-    
-    Install Miniconda
-    
-    ](https://protocols.hostmicrobe.org/conda#fe09fccfb386488f8f8b618a185386ab)
--   [
-    
-    Mac OS
-    
-    ](https://protocols.hostmicrobe.org/conda#c241e4626ea24bc387d59a7f88fa6dd3)
--   [
-    
-    Windows OS
-    
-    ](https://protocols.hostmicrobe.org/conda#d64fdca6e37e4997ae8671282562d9ac)
--   [
-    
-    Configuring your Conda installation
-    
-    ](https://protocols.hostmicrobe.org/conda#22fa88db022f46c1af3221d64cf88f9b)
--   [
-    
-    Create your first Conda environment
-    
-    ](https://protocols.hostmicrobe.org/conda#15097a3d6fe641e6b95e8534a18cf500)
--   [
-    
-    Rinse and repeat
-    
-    ](https://protocols.hostmicrobe.org/conda#234cad22e1d942688209650f27d88e87)
--   [
-    
-    Install other software we'll use for the course
-    
-    ](https://protocols.hostmicrobe.org/conda#4a450a485a4847a9962f0f51d2cc52bf)
--   [
-    
-    Useful Conda tips
-    
-    ](https://protocols.hostmicrobe.org/conda#76f87cda9aa9432dabdaf33c67fb29bb)
--   [
-    
-    Generally useful Conda commands
-    
-    ](https://protocols.hostmicrobe.org/conda#3bf6e06b9cca4091aaa393a21beda34a)
--   [
-    
-    Don't get carried away with your 'base' conda environment
-    
-    ](https://protocols.hostmicrobe.org/conda#797d1f5eba9d49edb627ead7a22b81be)
--   [
-    
-    Backup plan if Conda doesn't work for you
-    
-    ](https://protocols.hostmicrobe.org/conda#2e09dfb8cbd44d22b29738eae74b2119)
--   [
-    
-    Plan B for Mac OS
-    
-    ](https://protocols.hostmicrobe.org/conda#91aaee57b46e4790b8d5e888bbf957a1)
--   [
-    
-    Plan B for Windows OS
-    
-    ](https://protocols.hostmicrobe.org/conda#bf807bca0c6e470d9f9dfebfb1f770f2)
--   [
-    
-    Troubleshooting tips
-    
-    ](https://protocols.hostmicrobe.org/conda#edb2dc0e0b274b219a06212363307e98)
 
 ## What is Conda and why should you install it?
 
@@ -356,3 +279,83 @@ conda config --set channel_priority flexible
 ```
 
 -   Now retry installing your conda environment.
+
+
+
+This document accompanies the [**DIYtranscriptomics course**](https://diytranscriptomics.com/) and is intended to provide basic guidance in the installation of various bioinformatics softwares using Conda. If you have problems...don't worry, **[we're here to help](https://diytranscriptomics.com/lab/lab-01)****.**
+
+-   [
+    
+    What is Conda and why should you install it?
+    
+    ](https://protocols.hostmicrobe.org/conda#7ce114102d694df2be3c65d6b9249b2b)
+-   [
+    
+    Install Miniconda
+    
+    ](https://protocols.hostmicrobe.org/conda#fe09fccfb386488f8f8b618a185386ab)
+-   [
+    
+    Mac OS
+    
+    ](https://protocols.hostmicrobe.org/conda#c241e4626ea24bc387d59a7f88fa6dd3)
+-   [
+    
+    Windows OS
+    
+    ](https://protocols.hostmicrobe.org/conda#d64fdca6e37e4997ae8671282562d9ac)
+-   [
+    
+    Configuring your Conda installation
+    
+    ](https://protocols.hostmicrobe.org/conda#22fa88db022f46c1af3221d64cf88f9b)
+-   [
+    
+    Create your first Conda environment
+    
+    ](https://protocols.hostmicrobe.org/conda#15097a3d6fe641e6b95e8534a18cf500)
+-   [
+    
+    Rinse and repeat
+    
+    ](https://protocols.hostmicrobe.org/conda#234cad22e1d942688209650f27d88e87)
+-   [
+    
+    Install other software we'll use for the course
+    
+    ](https://protocols.hostmicrobe.org/conda#4a450a485a4847a9962f0f51d2cc52bf)
+-   [
+    
+    Useful Conda tips
+    
+    ](https://protocols.hostmicrobe.org/conda#76f87cda9aa9432dabdaf33c67fb29bb)
+-   [
+    
+    Generally useful Conda commands
+    
+    ](https://protocols.hostmicrobe.org/conda#3bf6e06b9cca4091aaa393a21beda34a)
+-   [
+    
+    Don't get carried away with your 'base' conda environment
+    
+    ](https://protocols.hostmicrobe.org/conda#797d1f5eba9d49edb627ead7a22b81be)
+-   [
+    
+    Backup plan if Conda doesn't work for you
+    
+    ](https://protocols.hostmicrobe.org/conda#2e09dfb8cbd44d22b29738eae74b2119)
+-   [
+    
+    Plan B for Mac OS
+    
+    ](https://protocols.hostmicrobe.org/conda#91aaee57b46e4790b8d5e888bbf957a1)
+-   [
+    
+    Plan B for Windows OS
+    
+    ](https://protocols.hostmicrobe.org/conda#bf807bca0c6e470d9f9dfebfb1f770f2)
+-   [
+    
+    Troubleshooting tips
+    
+    ](https://protocols.hostmicrobe.org/conda#edb2dc0e0b274b219a06212363307e98)
