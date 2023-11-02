@@ -17,7 +17,8 @@ kallisto index -i Homo_sapiens.GRCh38.cdna.all.index Homo_sapiens.GRCh38.cdna.al
 # now map reads to the indexed reference host transcriptome
 # use as many 'threads' as your machine will allow in order to speed up the read mapping process.
 # note that we're also including the '&>' at the end of each line
-# this takes the information that would've been printed to our terminal, and outputs this in a log file that is saved in /data/course_data
+# this takes the information that would've been printed to our terminal, and outputs this in a log file that is saved in working directory
+# New folders (ex, HS01, HS02, ..., CL13) are made in the working directory 
 
 # first the healthy subjects (HS)
 kallisto quant -i Homo_sapiens.GRCh38.cdna.all.index -o HS01 -t 4 --single -l 250 -s 30 SRR8668755.fastq.gz &> HS01.log
