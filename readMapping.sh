@@ -33,6 +33,9 @@ kallisto quant -i Homo_sapiens.GRCh38.cdna.all.index -o CL11 -t 4 --single -l 25
 kallisto quant -i Homo_sapiens.GRCh38.cdna.all.index -o CL12 -t 4 --single -l 250 -s 30 SRR8668773.fastq.gz &> CL12.log
 kallisto quant -i Homo_sapiens.GRCh38.cdna.all.index -o CL13 -t 4 --single -l 250 -s 30 SRR8668774.fastq.gz &> CL13.log
 
+# When you are mapping paired-end data
+# kallisto quant -i Homo_sapiens.GRCh38.cdna.all.index -o CL13 -t 4 sample1.fastq.gz sample2.fastq.gz &> CL13.log
+
 # summarize fastqc and kallisto mapping results in a single summary html using MultiQC
 multiqc -d . 
 
