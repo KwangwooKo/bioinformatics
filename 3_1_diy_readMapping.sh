@@ -1,4 +1,5 @@
-# reference:
+# reference: https://diytranscriptomics.com/
+
 # This script checks the qualitiy of our fastq files and performs an alignment to the human cDNA transcriptome reference with Kallisto.
 # To run this 'shell script' you will need to open your terminal and navigate to the directory where this script resides on your computer.
 # Conda environment (fastqc, kallisto) activation required.
