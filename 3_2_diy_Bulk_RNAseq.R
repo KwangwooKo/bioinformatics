@@ -11,12 +11,16 @@
 # This script is organized into 'chunks' of code, and the final chunk (called 'the essentials') is a minimal representation of this script.
 
 # load packages----
+setRepositories()
+
 library(rhdf5) #provides functions for handling hdf5 file formats (kallisto outputs bootstraps in this format)
 library(tidyverse) # provides access to Hadley Wickham's collection of R packages for data science, which we will use throughout the course
 library(tximport) # package for getting Kallisto results into R
 library(ensembldb) #helps deal with ensembl
 library(EnsDb.Hsapiens.v86) #replace with your organism-specific database package
+library(biomaRt) # an alternative for annotation
 library(beepr) #just for fun
+library(datapasta) # great for copy / paste data into the R environment
 
 # read in your study design ----
 #there are LOTS of ways to read data into R, but the readr package (from tidyverse) is one of the simplest
