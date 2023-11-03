@@ -36,12 +36,13 @@ all(file.exists(path))
 # will return TRUE if every element in the logical vector is TRUE.
 
 # get annotations using organism-specific package ----
+# go to the bioconductor website and then look at many annotation packages
+
 Tx <- transcripts(EnsDb.Hsapiens.v86, columns=c("tx_id", "gene_name"))
 Tx <- as_tibble(Tx)
-#need to change first column name to 'target_id'
-Tx <- dplyr::rename(Tx, target_id = tx_id)
-#transcrip ID needs to be the first column in the dataframe
-Tx <- dplyr::select(Tx, "target_id", "gene_name")
+#need to change first column name to 'target_id' & "abundance.tsv" file has target_id column and so should match the names
+Tx <- dplyr::rename(Tx, target_id = tx_id) 
+Tx <- dplyr::select(Tx, "target_id", "gene_name")  #transcrip ID needs to be the first column in the dataframe
 
 # OPTIONAL: get annotations using BiomaRt----
 # The annotation method described in the code chunk above works great if an organism-specific data base package exists for your organisms of interest
