@@ -1,3 +1,5 @@
+(reference) https://diytranscriptomics.com/
+
 # Introduction to the Step 1 script----
 # Step 1 Learning Objectives:
 # 1 - Step 1 serves as your gateway to R scripts and, as such, you will learn the proper 'anatomy' for any R script.
