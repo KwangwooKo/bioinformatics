@@ -1,4 +1,4 @@
-(reference) https://diytranscriptomics.com/
+# (reference) https://diytranscriptomics.com/
 
 # Introduction to the Step 1 script----
 # Step 1 Learning Objectives:
