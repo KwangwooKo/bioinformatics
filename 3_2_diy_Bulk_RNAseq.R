@@ -17,7 +17,6 @@ library(rhdf5) #provides functions for handling hdf5 file formats (kallisto outp
 library(tidyverse) # provides access to Hadley Wickham's collection of R packages for data science, which we will use throughout the course
 library(tximport) # package for getting Kallisto results into R
 library(ensembldb) #helps deal with ensembl
-library(EnsDb.Hsapiens.v86) #replace with your organism-specific database package
 library(biomaRt) # an alternative for annotation
 library(beepr) #just for fun
 library(datapasta) # great for copy / paste data into the R environment
@@ -37,6 +36,7 @@ all(file.exists(path))
 
 # get annotations using organism-specific package ----
 # go to the bioconductor website and then look at many annotation packages
+library(EnsDb.Hsapiens.v86) #replace with your organism-specific database package
 
 Tx <- transcripts(EnsDb.Hsapiens.v86, columns=c("tx_id", "gene_name"))
 Tx <- as_tibble(Tx)
@@ -81,6 +81,14 @@ Txi_gene <- tximport(path,
                      txOut = FALSE, #How does the result change if this =FALSE vs =TRUE?
                      countsFromAbundance = "lengthScaledTPM",
                      ignoreTxVersion = TRUE)
+
+Txi_transcript <- tximport(path, 
+                     type = "kallisto", 
+                     tx2gene = Tx, 
+                     txOut = TRUE, #determines whether your data represented at transcript or gene level
+                     countsFromAbundance = "lengthScaledTPM",
+                     ignoreTxVersion = TRUE) # transcripts have many different versions.
+
 beep(sound = 6)
 
 #take a look at the type of object you just created
@@ -94,24 +102,7 @@ print("Step 1 complete!")
 # Txi_trans <- as_tibble(Txi_trans$counts, rownames = "target_id")
 # Txi_trans <- left_join(Txi_trans, Tx)
 
-# the essentials ----
-# this chunk contains the minimal essential code from this script. Simply uncomment the lines below and run the code.
-library(tidyverse) # provides access to Hadley Wickham's collection of R packages for data science, which we will use throughout the course
-library(tximport) # package for getting Kallisto results into R
-library(ensembldb) #helps deal with ensembl
-library(EnsDb.Hsapiens.v86) #replace with your organism-specific database package
-targets <- read_tsv("studydesign.txt")# read in your study design
-path <- file.path(targets$sample, "abundance.tsv") # set file paths to your mapped data
-Tx <- transcripts(EnsDb.Hsapiens.v86, columns=c("tx_id", "gene_name"))
-Tx <- as_tibble(Tx)
-Tx <- dplyr::rename(Tx, target_id = tx_id)
-Tx <- dplyr::select(Tx, "target_id", "gene_name")
-Txi_gene <- tximport(path, 
-                     type = "kallisto", 
-                     tx2gene = Tx, 
-                     txOut = FALSE, #determines whether your data represented at transcript or gene level
-                     countsFromAbundance = "lengthScaledTPM",
-                     ignoreTxVersion = TRUE)
+
 
 ###############################################################################################################################################
 
