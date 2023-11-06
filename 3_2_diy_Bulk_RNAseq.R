@@ -347,6 +347,8 @@ log2.cpm.df.pivot <- pivot_longer(log2.cpm.df, # dataframe to be pivoted
                                   names_to = "samples", # name of that new variable (column)
                                   values_to = "expression") # name of new variable (column) storing all the values (data)
 
+#p1: unfiltered, non-normalized
+
 p1 <- ggplot(log2.cpm.df.pivot) +
   aes(x=samples, y=expression, fill=samples) +
   geom_violin(trim = FALSE, show.legend = FALSE) +
@@ -374,6 +376,8 @@ log2.cpm.filtered.df.pivot <- pivot_longer(log2.cpm.filtered.df, # dataframe to 
                                            names_to = "samples", # name of that new variable (column)
                                            values_to = "expression") # name of new variable (column) storing all the values (data)
 
+#p2: filtered, non-normalized
+
 p2 <- ggplot(log2.cpm.filtered.df.pivot) +
   aes(x=samples, y=expression, fill=samples) +
   geom_violin(trim = FALSE, show.legend = FALSE) +
@@ -389,6 +393,9 @@ p2 <- ggplot(log2.cpm.filtered.df.pivot) +
        caption=paste0("produced on ", Sys.time())) +
   theme_bw()
 
+
+#p3: filtered, normalized
+
 myDGEList.filtered.norm <- calcNormFactors(myDGEList.filtered, method = "TMM")
 log2.cpm.filtered.norm <- cpm(myDGEList.filtered.norm, log=TRUE)
 log2.cpm.filtered.norm.df <- as_tibble(log2.cpm.filtered.norm, rownames = "geneID")
@@ -397,6 +404,7 @@ log2.cpm.filtered.norm.df.pivot <- pivot_longer(log2.cpm.filtered.norm.df, # dat
                                                 cols = HS01:CL13, # column names to be stored as a SINGLE variable
                                                 names_to = "samples", # name of that new variable (column)
                                                 values_to = "expression") # name of new variable (column) storing all the values (data)
+
 
 p3 <- ggplot(log2.cpm.filtered.norm.df.pivot) +
   aes(x=samples, y=expression, fill=samples) +
