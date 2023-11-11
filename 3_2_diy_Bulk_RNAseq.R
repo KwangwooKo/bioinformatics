@@ -44,6 +44,8 @@ Tx <- as_tibble(Tx)
 Tx <- dplyr::rename(Tx, target_id = tx_id) 
 Tx <- dplyr::select(Tx, "target_id", "gene_name")  #transcrip ID needs to be the first column in the dataframe
 
+
+=================================================================================================================================================
 # OPTIONAL: get annotations using BiomaRt----
 # The annotation method described in the code chunk above works great if an organism-specific data base package exists for your organisms of interest
 # however, this is only the case for human, mouse and rat....
@@ -71,7 +73,7 @@ Tx.dog <- as_tibble(Tx.dog)
 #we need to rename the two columns we just retreived from biomart
 Tx.dog <- dplyr::rename(Tx.dog, target_id = ensembl_transcript_id_version, 
                     gene_name = external_gene_name)
-
+===============================================================================================
 
 # import Kallisto transcript counts into R using Tximport ----
 # copy the abundance files to the working directory and rename so that each sample has a unique name
@@ -97,20 +99,16 @@ names(Txi_gene)
 
 print("Step 1 complete!")
 
-# if you want to write your counts or TPM to a file on your harddrive
-# if you exported transcript level data and want to append your gene symbols to the data frame
-# Txi_trans <- as_tibble(Txi_trans$counts, rownames = "target_id")
-# Txi_trans <- left_join(Txi_trans, Tx)
 
 # the essentials ----
-# this chunk contains the minimal essential code from this script. Simply uncomment the lines below and run the code.
-library(tidyverse) # provides access to Hadley Wickham's collection of R packages for data science, which we will use throughout the course
+# this chunk contains the minimal essential code from this script
+library(tidyverse) # provides access to Hadley Wickham's collection of R packages for data science
 library(tximport) # package for getting Kallisto results into R
-library(ensembldb) #helps deal with ensembl
-library(EnsDb.Hsapiens.v86) #replace with your organism-specific database package
+library(ensembldb) # helps deal with ensembl
+library(EnsDb.Hsapiens.v86) # replace with your organism-specific database package
 
-targets <- read_tsv("studydesign.txt", "\t") # read in your study design
-path <- file.path(targets$sample, "abundance.tsv") # set file paths to your mapped data
+targets <- read_tsv("studydesign.txt", "\t") 
+path <- file.path(targets$sample, "abundance.tsv") 
 Tx <- transcripts(EnsDb.Hsapiens.v86, columns=c("tx_id", "gene_name"))
 Tx <- as_tibble(Tx)
 Tx <- dplyr::rename(Tx, target_id = tx_id)
