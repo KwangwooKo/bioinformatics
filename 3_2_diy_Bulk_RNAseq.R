@@ -183,8 +183,7 @@ sampleLabels <- targets$sample
 
 # Make a DGElist from your counts, and plot ----
 myDGEList <- DGEList(myCounts)
-# take a look at the DGEList object 
-myDGEList
+
 #DEGList objects are a good R data file to consider saving to you working directory
 save(myDGEList, file = "myDGEList")
 #Saved DGEList objects can be easily shared and loaded into an R environment
