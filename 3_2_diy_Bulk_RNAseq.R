@@ -181,42 +181,6 @@ colSums(myCounts_transcript)
 targets
 sampleLabels <- targets$sample
 
-# Generate summary stats for your data ----
-# 1st, calculate summary stats for each transcript or gene, and add these to your data matrix
-# then use the base R function 'transform' to modify the data matrix (equivalent of Excel's '=')
-# then we use the 'rowSds', 'rowMeans' and 'rowMedians' functions from the matrixStats package
-myTPM.stats <- transform(myTPM, 
-                         SD=rowSds(myTPM), 
-                         AVG=rowMeans(myTPM),
-                         MED=rowMedians(myTPM))
-
-# look at what you created
-head(myTPM.stats)
-
-# Create your first plot using ggplot2 ----
-# produce a scatter plot of the transformed data
-ggplot(myTPM.stats) + 
-  aes(x = SD, y = MED) +
-  geom_point(shape=25, size=3)
-# Experiment with point shape and size in the plot above
-# Experiment with other plot types (e.g. 'geom_hex' instead of 'geom_point')
-# Add a theme to your ggplot code above.  Try 'theme_bw()'
-# How would these graphs change if you log2 converted the data?
-
-# Let's expand on the plot above a bit more and take a look at each 'layer' of the ggplot code
-ggplot(myTPM.stats) + 
-  aes(x = SD, y = MED) +
-  geom_point(shape=16, size=2) +
-  geom_smooth(method=lm) +
-  geom_hex(show.legend = FALSE) +
-  labs(y="Median", x = "Standard deviation",
-       title="Transcripts per million (TPM)",
-       subtitle="unfiltered, non-normalized data",
-       caption="DIYtranscriptomics - Spring 2020") +
-  theme_classic() +
-  theme_dark() + 
-  theme_bw()
-
 # Make a DGElist from your counts, and plot ----
 myDGEList <- DGEList(myCounts)
 # take a look at the DGEList object 
