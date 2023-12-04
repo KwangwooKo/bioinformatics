@@ -1,3 +1,5 @@
+(Reference) https://github.com/kpatel427/YouTubeTutorials/blob/main/singleCell_standard_workflow.R
+
 
 setwd("~/Desktop/Coding_practice/scRNAseq")
 
