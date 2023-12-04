@@ -1,30 +1,15 @@
-(Reference) https://github.com/kpatel427/YouTubeTutorials/blob/main/singleCell_standard_workflow.R
 
+# reference
+# https://www.youtube.com/watch?v=5HBzgsz8qyk&t=14s
+# https://github.com/kpatel427/YouTubeTutorials/blob/main/singleCell_standard_workflow.R
+# https://www.10xgenomics.com/resources/datasets/20k-mixture-of-nsclc-dtcs-from-7-donors-3-v3-1-with-intronic-reads-3-1-standard
 
 setwd("~/Desktop/Coding_practice/scRNAseq")
-
-# Install BiocManager
-install.packages("BiocManager")
-
-# Install the seurat package
-BiocManager::install("Seurat")
-
-if (!requireNamespace("remotes", quietly = TRUE)) {
-  install.packages("remotes")
-}
-remotes::install_github("mojaveazure/seurat-disk")
-
-#load libraries
-library(dplyr)
-library(tidyverse)
-library(Seurat)
-library(SeuratDisk)
-library(ggplot2)
-
 
 # load libraries
 library(Seurat)
 library(tidyverse)
+library(ggplot2)
 
 
 # Load the NSCLC dataset (m: matrix)
