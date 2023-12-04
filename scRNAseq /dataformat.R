@@ -20,7 +20,6 @@ library(dplyr)
 library(tidyverse)
 library(Seurat)
 library(SeuratDisk)
-library(ggplot2)
 
 # script to demonstrate reading single cell matrices in various format 
 # and converting to seurat object
