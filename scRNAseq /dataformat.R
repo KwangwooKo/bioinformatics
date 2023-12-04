@@ -10,18 +10,17 @@ install.packages("BiocManager")
 # Install the seurat package
 BiocManager::install("Seurat")
 
+if (!requireNamespace("remotes", quietly = TRUE)) {
+  install.packages("remotes")
+}
+remotes::install_github("mojaveazure/seurat-disk")
+
 #load libraries
 library(dplyr)
 library(tidyverse)
 library(Seurat)
 library(SeuratDisk)
 library(ggplot2)
-
-if (!requireNamespace("remotes", quietly = TRUE)) {
-  install.packages("remotes")
-}
-remotes::install_github("mojaveazure/seurat-disk")
-
 
 # script to demonstrate reading single cell matrices in various format 
 # and converting to seurat object
