@@ -4,6 +4,10 @@ output: html_document
 date: "2023-12-13"
 ---
 
+(Reference) https://diytranscriptomics.com/
+- Lecture 13, 14
+- Original codes were modified.
+
 ---Introduction ----
 
 This script walks through the quality assessment (QA) and analysis of single 
