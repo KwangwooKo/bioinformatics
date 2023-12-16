@@ -473,3 +473,206 @@ top10 <- pbmc.1k.markers %>%
 DoHeatmap(pbmc.1k.seurat, features = top10$gene)
 ```
 
+
+```{r}
+# Assigning identity to cell clusters  ----
+library(scater) #quality control and visualization for scRNA-seq data
+library(scran) #for low level processing of scRNA-seq data
+library(DropletUtils)
+library(tensorflow)
+# need to install tensorflow R package first (above)
+# then run tensorflow::install_tensorflow(extra_packages='tensorflow-probability'), 
+# then install cellassign from github: https://github.com/irrationone/cellassign
+library(cellassign) 
+library(SingleR) #automated cell type annotation ('label transfer') using reference data
+library(celldex) #a large collection of reference expression datasets with curated cell type labels for use with SingleR package
+library(pheatmap)
+```
+
+
+```{r}
+# it can also be useful to turn the Seurat object into a single Cell Experiment 
+# object, for better interoperability with other bioconductor tools
+# two ways to get singleCellExperiment object
+# option 1 - use 'read10xCounts' function from DropletUtils package
+datadir = 'counts_filtered'
+pbmc.1k.sce <- read10xCounts(datadir)
+```
+
+```{r}
+# option 2 - Seurat allows you to convert directly
+pbmc.1k.sce <- as.SingleCellExperiment(pbmc.1k.seurat)
+```
+(note)
+
+The purpose of converting a Seurat object into a SingleCellExperiment (SCE) 
+format involves interoperability and compatibility with various bioinformatics 
+tools and workflows. Here are the key reasons:
+
+Compatibility with Bioconductor Tools: SingleCellExperiment is a class defined 
+within the Bioconductor project, a large collection of R packages for the 
+analysis of genomic data. Converting a Seurat object to SCE allows users to 
+access a wide range of tools and methods available in Bioconductor that are 
+designed to work with the SCE format.
+
+Standardized Data Representation: The SCE format provides a standardized way to
+represent single-cell data, including count matrices, metadata, and reduced 
+dimensions. This standardization facilitates the sharing and comparison of data
+across different studies and tools.
+
+Integrated Workflows: To use a combination of tools from different packages for
+single-cell analysis. Converting Seurat objects to SCE allows for smoother 
+integration of workflows that involve both Seurat and Bioconductor tools.
+
+Flexibility in Analysis: The SCE format offers flexibility in terms of storing
+and manipulating data. It supports the storage of multiple assays 
+(e.g., RNA, ATAC), enabling integrated analysis of multi-modal single-cell data.
+
+Enhanced Data Manipulation and Storage: The SCE format allows for more efficien
+t manipulation of sparse matrices and metadata, which can be advantageous in 
+large single-cell datasets.
+
+Facilitating Data Exchange and Reproducibility: By using a common data format,
+researchers can more easily share their data and methods with others, enhancing
+reproducibility and collaborative research.
+
+```{r}
+# the singleCellExperiment data structure is easy to work with
+rownames(pbmc.1k.sce)
+colnames(pbmc.1k.sce)
+reducedDims(pbmc.1k.sce)
+assays(pbmc.1k.sce)
+my.subset <- pbmc.1k.sce[,c(1,2,8)]
+rowData(pbmc.1k.sce)$Symbol <- rownames(pbmc.1k.sce)
+```
+(note)
+rowData(pbmc.1k.sce)$Symbol <- rownames(pbmc.1k.sce)
+: This is adding a new column "Symbol" in rowData with rownames of pbmc.1k.sce
+
+
+```{r}
+# create a list of markers
+# you can find cell specific markers here: http://biocc.hrbmu.edu.cn/CellMarker/
+pbmc_marker_list <- list(
+  Monocytes = c("CD14", "CD68"),
+  `T cells` = c("CD2", "CD3D", "TRAC", "IL32", "CD3E", "PTPRC"),
+  `NK cells` = c("GZMK", "KLRF1", "CCL3", "CMC1", "NKG7", "PTPRC"),
+  `Plasma cells` = c("CD27", "IGHG1", "CD79A", "IGHG2", "PTPRC", "IGKC"),
+  `Mature B cells` = c("MS4A1", "LTB", "CD52", "IGHD", "CD79A", "PTPRC", "IGKC"))
+```
+(note)
+Quotation mark is not necessary for single word like Monocytes.
+
+```{r}
+# convert your marker gene list from above to a matrix
+pbmc_marker_matrix <- marker_list_to_mat(pbmc_marker_list, 
+                                         include_other = FALSE)
+
+# you can view this matrix as a heatmap
+pheatmap(pbmc_marker_matrix)
+```
+
+```{r}
+# make sure all your markers were actually observed in your single cell data.  
+# Remove markers that were not detected
+marker_in_sce <- match(rownames(pbmc_marker_matrix), 
+                       rowData(pbmc.1k.sce)$Symbol)
+stopifnot(all(!is.na(marker_in_sce)))
+```
+
+```{r}
+#subset data to include only markers
+sce_marker <- pbmc.1k.sce[marker_in_sce, ]
+stopifnot(all.equal(rownames(pbmc_marker_matrix), rowData(sce_marker)$Symbol))
+```
+
+(note)
+stopifnot is a function in R that tests if the conditions inside it are true. 
+If any condition is not true (i.e., is false), the function will throw an error
+and stop the execution of the script or function where it is called.
+
+
+```{r}
+# compute size factors
+pbmc.1k.sce <- scran::computeSumFactors(pbmc.1k.sce)
+```
+(note)
+computeSumFactors(): used to compute size factors for single-cell RNA-seq data 
+normalization. Size factors are crucial in scRNA-seq data analysis for adjusting
+for differences in library sizes across cells. In other words, they help to 
+normalize the gene expression data, taking into account that some cells might
+have more total RNA sequenced than others.
+
+
+********Because of errors in the below, I could not continue it *************
+
+```{r}
+# run cellAssign
+fit <- cellassign(
+  exprs_obj = sce_marker,
+  marker_gene_info = pbmc_marker_matrix,
+  s = sizeFactors(pbmc.1k.sce),
+  shrinkage = TRUE,
+  max_iter_adam = 50,
+  min_delta = 2,
+  verbose = TRUE,
+  )
+```
+
+```{r}
+# incorporate the cellAssign result into your singleCellExperiment
+pbmc.1k.sce$cell_type <- fit$cell_type
+# plotUMAP is the Scater equivalent of Seurat's DimPlot
+plotUMAP(pbmc.1k.sce, colour_by = "cell_type")
+```
+********************************************************************************
+
+
+```{r}
+# a different way of labeling clusters using public datasets
+# now label using singleR and celldex (requires an internet connection to connect to ExperimentHub)
+
+#259 RNA-seq samples of pure stroma and immune cells as generated and supplied 
+## by Blueprint and ENCODE
+ENCODE.data <- BlueprintEncodeData(ensembl = FALSE) 
+
+#713 microarray samples from the Human Primary Cell Atlas (HPCA) 
+## (Mabbott et al., 2013).
+HPCA.data <- HumanPrimaryCellAtlasData(ensembl = FALSE) 
+
+#1561 bulk RNA-seq samples of sorted immune cell populations
+DICE.data <- DatabaseImmuneCellExpressionData(ensembl = FALSE) 
+
+# 830 microarray samples of pure mouse immune cells, generated by the 
+## Immunologic Genome Project (ImmGen)
+ImmGen.data <- ImmGenData(ensembl = FALSE)
+
+#114 bulk RNA-seq samples of sorted immune cell populations that can be found
+## in GSE107011.
+Monaco.data <- MonacoImmuneData(ensembl = FALSE) 
+
+#358 bulk RNA-seq samples of sorted cell populations
+MouseRNAseq.data <- MouseRNAseqData(ensembl = FALSE)
+
+#211 bulk human microarray samples of sorted hematopoietic cell populations 
+## that can be found in GSE24759
+Hemato.data <- NovershternHematopoieticData(ensembl = FALSE) 
+
+
+```
+
+```{r}
+predictions <- SingleR(test=pbmc.1k.sce, assay.type.test=1, 
+                       ref=Monaco.data, labels=Monaco.data$label.main)
+
+plotScoreHeatmap(predictions)
+```
+
+```{r}
+#now add back to singleCellExperiment object (or Seurat objects)
+pbmc.1k.sce[["SingleR.labels"]] <- predictions$labels
+plotUMAP(pbmc.1k.sce, colour_by = "SingleR.labels")
+```
+
+
+
