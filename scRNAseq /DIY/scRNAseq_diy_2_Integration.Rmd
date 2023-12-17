@@ -3,7 +3,9 @@ title: "scRNSseq_diy"
 output: html_document
 date: "2023-12-13"
 ---
-(reference) 
+(Reference) https://diytranscriptomics.com/
+- Lecture 13, 14
+- Original codes were modified.
 
 # Integrate multiple scRNA-seq datasets ----
 : To demonstrate integration, we'll read in two Seurat objects 
