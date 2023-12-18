@@ -8,6 +8,7 @@ date: "2023-12-13"
 - Lecture 13, 14
 - Original codes were modified.
 
+
 ---Introduction ----
 
 This script walks through the quality assessment (QA) and analysis of single 
@@ -351,8 +352,80 @@ Because filt_mtx file is already generated through DropletUtils.
 pbmc.1k.seurat <- CreateSeuratObject(counts = expression_matrix, min.cells = 3)  %>% 
   NormalizeData(verbose = FALSE) %>% 
   FindVariableFeatures(verbose = FALSE)
-```
 
+VariableFeaturePlot(pbmc.1k.seurat)
+```
+(note)
+By default, Seurat's FindVariableFeatures function selects 2,000 features. 
+This default can be changed by specifying the nfeatures argument.
+
+(note) About Seurat Object
+
+1. Assays:
+Purpose: Store raw and processed data.
+Details:
+Each assay (like RNA, SCT, and so on) holds data matrices such as raw count data
+, normalized data, and scaled data.
+Common assays include RNA for raw counts and SCT for SCTransform-normalized data.
+Access: object[["RNA"]], object[["SCT"]]
+
+2. Metadata:
+Purpose: Store information about each cell.
+Details:
+Metadata is a data frame where each row corresponds to a cell, and columns 
+store cell-specific information like experimental conditions, cell cycle phase
+Access: object@meta.data
+
+3. Reductions:
+Purpose: Store results of dimensionality reduction techniques.
+Details:
+Common reductions include PCA (Principal Component Analysis), t-SNE, and UMAP.
+They contain information used for plotting cells in reduced dimensional space, 
+identifying clusters, etc.
+Access: object@reductions$umap, object@reductions$pca
+
+4. Graphs:
+Purpose: Store nearest neighbor graphs.
+Details:
+Graphs are used in clustering algorithms (like Louvain or Leiden algorithms).
+They represent the relationships or similarities between cells.
+Access: object@graphs
+
+5. Spatial Information (if applicable):
+Purpose: Store spatial coordinates for spatial transcriptomics data.
+Details:
+Relevant for datasets where spatial positioning of cells/tissues is analyzed.
+Access: Specific accessor functions depending on spatial analysis.
+6. Images (if applicable):
+Purpose: Store images, mainly for spatial transcriptomics datasets.
+Details:
+Images linked to spatial data allow for visualizing gene expression in its 
+original tissue context.
+Access: Specific accessor functions for image data.
+
+7. Other Slots:
+Purpose: Store additional data or parameters.
+Details:
+project.name: The name of the project or dataset.
+misc: Miscellaneous data.
+commands: Log of commands applied to the Seurat object.
+
+8. Accessing and Manipulating a Seurat Object:
+Subsetting: You can subset Seurat objects to focus on specific cells or genes,
+e.g., object[cells, genes].
+Adding Data: You can add new data (like new metadata columns) directly to the 
+Seurat object.
+Integrated Workflows: Seurat provides functions for normalization, variable 
+feature identification, scaling, dimensionality reduction, clustering, and 
+visualization, all operable on the Seurat object.
+
+9. Conclusion:
+The Seurat object is designed to be a comprehensive container for single-cell 
+RNA sequencing data, incorporating various data types and analysis results. 
+Its structure facilitates a streamlined workflow in scRNA-seq analysis, from 
+preprocessing to advanced analyses like integration of multiple datasets, 
+differential expression analysis, and more. The complexity of the Seurat object
+mirrors the complexity and richness of single-cell RNA-seq data itself.
 
 ```{r}
 # Let's calculate percent of mitochondrial reads
@@ -411,6 +484,12 @@ pbmc.1k.seurat <- FindNeighbors(pbmc.1k.seurat, reduction = "pca", dims = 1:40)
 pbmc.1k.seurat <- FindClusters(pbmc.1k.seurat, resolution = 0.5)
 DimPlot(pbmc.1k.seurat, reduction = "umap", split.by = "orig.ident", label = TRUE)
 ```
+(note)
+# resolution determins the number of clusters 
+ (low: less cluster vs high more cluster)
+
+pbmc.1k.seurat <- FindClusters(pbmc.1k.seurat, resolution = 0.5)
+
 
 ```{r}
 DimPlot(pbmc.1k.seurat, reduction = "pca", split.by = "orig.ident", label = TRUE)
@@ -472,7 +551,6 @@ top10 <- pbmc.1k.markers %>%
 
 DoHeatmap(pbmc.1k.seurat, features = top10$gene)
 ```
-
 
 ```{r}
 # Assigning identity to cell clusters  ----
@@ -625,8 +703,9 @@ pbmc.1k.sce$cell_type <- fit$cell_type
 # plotUMAP is the Scater equivalent of Seurat's DimPlot
 plotUMAP(pbmc.1k.sce, colour_by = "cell_type")
 ```
-********************************************************************************
 
+
+******************* Try here below *************************
 
 ```{r}
 # a different way of labeling clusters using public datasets
@@ -657,7 +736,6 @@ MouseRNAseq.data <- MouseRNAseqData(ensembl = FALSE)
 #211 bulk human microarray samples of sorted hematopoietic cell populations 
 ## that can be found in GSE24759
 Hemato.data <- NovershternHematopoieticData(ensembl = FALSE) 
-
 
 ```
 
