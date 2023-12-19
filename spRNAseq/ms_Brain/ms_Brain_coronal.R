@@ -1,10 +1,10 @@
-(Reference) Single Cell Genomics, Transcriptomics & Proteomics
-(Datasets)
-https://www.10xgenomics.com/resources/datasets/mouse-brain-section-coronal-1-standard
-- 10x Genomics, spatial gene expression
-- Mouse Brain coronal section (v1)
-1. Feature / barcode matrix HDF5(filtered)
-2. Spatial imaging data
+#(Reference) Single Cell Genomics, Transcriptomics & Proteomics
+#(Datasets)
+# https://www.10xgenomics.com/resources/datasets/mouse-brain-section-coronal-1-standard
+# - 10x Genomics, spatial gene expression
+# - Mouse Brain coronal section (v1)
+# 1. Feature / barcode matrix HDF5(filtered)
+# 2. Spatial imaging data
 
 library(Seurat)
 library(tidyverse)
