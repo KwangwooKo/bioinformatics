@@ -10,7 +10,7 @@ library(Seurat)
 library(tidyverse)
 library(patchwork)
 
-#load data
+#load data (https://satijalab.org/seurat/reference/load10x_spatial)
 
 brain <- Load10X_Spatial('Data/', 
                          filename = "Visium_Adult_Mouse_Brain_filtered_feature_bc_matrix.h5",
@@ -22,10 +22,15 @@ brain <- Load10X_Spatial('Data/',
 
 View(brain@meta.data)
 
+# nCount_spatial: total number of transcripts detected in each spatial location
+# nFeature_spatial: total number of unique genes detected in each spatial location
+
+# VlnPlot & SpatialFeaturePlot
 plot1 <- VlnPlot(brain, features = "nCount_spatial", pt.size = 0.1) + NoLegend()
 plot2 <- SpatialFeaturePlot(brain, features =
                               "nCount_spatial") + theme(legend.position = "right")
 
+# wrap_plots
 wrap_plots(plot1, plot2)
 
 plot3 <- VlnPlot(brain, features = 'nFeature_spatial', pt.size = 0.1) + NoLegend()
@@ -43,6 +48,8 @@ brain <- FindVariableFeatures(brain)
 brain <- ScaleData(brain)
 
 # Spatial RNA-seq Data pre-processing
+## Used for normalization and variance stabilization
+
 brain <- SCTransform(brain, assay = 'spatial', verbose = FALSE)
 
 # Dimensionality reduction, clustering, and visualization
@@ -54,3 +61,4 @@ brain <- RunUMAP(brain, reduction = 'pca', dims =1:30)
 p1 <-DimPlot(brain, reduction ='umap', label = TRUE)
 p2 <- SpatialDimPlot(brain, label = TRUE, label.size = 3)
 p1+p2
+
